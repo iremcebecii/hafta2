@@ -1,45 +1,104 @@
-<?php
-//isset,unset kullanımı
-echo "isset($AdiSoyadi)"."<br>";
-$AdiSoyadi="Çisem Yaşar";
-echo "isset($AdiSoyadi)";
+<html>
+<head>
+<meta charset="UTF-8">
+<title>EKLE SİL GÜNCELLE</title>
+	</head>
 
-$degisken="Gelişim Üniversitesi";
-echo $degisken."<br>";
-unset(degisken);
-echo $degisken;
-
-$yil=2024;
-$doğum_yili=1999;
-$yas=$yil-$doğum_yili;
-echo "benim yaşım=".$yas;
-
-//basit hesap makinesi
-echo "<h3>basit hesap makinesi</h3>"."<br>";
-$sayi1=35;
-$sayi2=5;
-
-$topla=$sayi1+$sayi2;
-$cikar=$sayi1-$sayi2;
-$carp=$sayi1*$sayi2;
-$bol=$sayi1/$sayi2;
-$mod=$sayi1%$sayi2;
-$us=$sayi1**$sayi2;
-
-
-echo "1.sayının değeri: ".$sayi1."<br>".
- "2.sayının değeri: ".$sayi2."<br>".
-    "toplama işleminin sonucu: ".$topla."<br>".
-    "çıkarma işleminin sonucu: ".$cikar."<br>".
-	"çarpma işleminin sonucu: ".$carp."<br>".
-	"bölme işleminin sonucu: ".$bol."<br>".
-	"mod işleminin sonucu: ".$mod."<br>".
-	"üs alma işleminin sonucu: ".$us;
+<body>
+	<form name="form" action="" method="post">
+	<table>
+	<tr>
+		<td>TC NUMARASI:</td>
+		<td><input type="text" name="tc"></td>
+		</tr>
+		<tr>
+		<td>ADI:</td>
+		<td><input type="text" name="ad"></td>
+		</tr>
+		<tr>
+		<td>SOYADI:</td>
+		<td><input type="text" name="soyad"></td>
+		</tr>
+		<tr>
+		<td colspan="3">
+			<input type="submit" name="kaydet" value="KAYDET">
+		<input type="submit" name ="guncelle" value="GÜNCELLE">
+		<input type="submit" name ="sil" value="SİL">
+		</td>
+		</tr>
+		</table>
+		</form>
+		</body>
+</html>
+	<?php
+	$db=new PDO("mysql:host=localhost; dbname=ornekk; charset=utf8","root","");
+	if(isset($_POST["kaydet"]))
+	{
+		$ktc=$_POST["tc"];
+		$kad=$_POST["ad"];
+		$ksoyad=$_POST["soyad"];
+		if($db)
+		{
+				echo "VERİTABANI BAĞLANTISI GERÇEKLEŞTİ"."
+				<br>";
+				$kaydet=$db->exec("INSERT INTO ogrencidurum(ad,soyad,tc)VALUES
+				('$ktc','$kad','$ksoyad')");
+				if($kaydet)
+				{
+					echo "Kayıt ekleme başarılı";
+				}
+				else
+				{
+					echo "Kayıt ekleme başarısız";
+				}
+			}
+		}
+		if(isset($_POST["guncelle"]))
+	{
+		$ktc=$_POST["tc"];
+		$kad=$_POST["ad"];
+		$ksoyad=$_POST["soyad"];
+		if($db)
+		{
+				echo "VERİTABANI BAĞLANTISI GERÇEKLEŞTİ"."
+				<br>";
+				$guncelle=$db->exec("UPDATE ogrencidurum SET ad='$kad',soyad='$ksoyad',WHERE tc='$ktc'");
+				if($guncelle)
+				{
+					echo "güncelleme başarılı";
+				}
+				else
+				{
+					echo "güncelleme başarısız";
+					
+				}
+		}
+	}
+	if(isset($_POST["sil"]))
+	{
+		$ktc=$_POST["tc"];
+		$kad=$_POST["ad"];
+		$ksoyad=$_POST["soyad"];
+		if($db)
+		{
+				echo "VERİTABANI BAĞLANTISI GERÇEKLEŞTİ"."
+				<br>";
+				$sil=$db->exec("DELETE FROM ogrencidurum WHERE ad='$kad'");
+				if($sil)
+				{
+					echo "silme işlemi başarı ile tamamlandı";
+				}
+				else
+				{
+					echo "silme işlemi başarısız";
+					
+				}
+		}
+	}
 	
-//artırma ve azaltma operatörleri
-$sayi=15;
-echo "<u> yazmış olduğunuz sayının değeri:
-</u>".$sayi."<br>".
-"sayının dğerini artırma işlemi:".++$sayi."<br>".
-"sayının değerini azaltma işlemi:".--$sayi;
 ?>
+
+	
+	
+		
+		
